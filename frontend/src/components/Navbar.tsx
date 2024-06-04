@@ -1,6 +1,6 @@
 function Navbar() {
     return (
-        <header className="navbar bg-primary text-primary-content">
+        <header className="fixed top-0 z-50 navbar bg-primary text-primary-content">
             <div className="flex-none">
                 <div className="drawer">
                     <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -12,7 +12,7 @@ function Navbar() {
                     </div>
                     <div className="drawer-side">
                         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-                        <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+                        <ul className="min-h-full p-4 menu w-80 bg-base-200 text-base-content">
                             {/* Sidebar content here */}
                             <li><a>Sidebar Item 1</a></li>
                             <li><a>Sidebar Item 2</a></li>
@@ -22,7 +22,7 @@ function Navbar() {
                 </div>
             </div>
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl">TaskManager</a>
+                <a className="text-xl btn btn-ghost">TaskManager</a>
             </div>
             <div className="flex-none">
                 <button className="btn btn-square btn-ghost">
