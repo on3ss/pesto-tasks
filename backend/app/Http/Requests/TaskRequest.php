@@ -23,8 +23,9 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|required|min:4|max:255',
-            'description' => 'string|max:255|nullable'
+            'name' => 'required|string|min:4|max:255',
+            'description' => 'nullable|string|max:255',
+            'status_id' => 'required|integer|exists:statuses,id'
         ];
     }
 }
