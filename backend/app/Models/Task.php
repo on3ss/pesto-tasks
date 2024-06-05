@@ -10,6 +10,13 @@ class Task extends Model
 {
     use HasFactory;
 
+    /**
+     * Fields mass fillable
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'description', 'status_id'];
+
     /* Get the user associated with the Task
      *
      * @return Illuminate\Database\Eloquent\Relations\HasOne
