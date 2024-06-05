@@ -47,8 +47,9 @@ const TaskList: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            const baseUrl = import.meta.env.VITE_API_URL
             try {
-                const response = await fetch(`http://10.179.36.75:8000/api/task?page=${currentPage}`, {
+                const response = await fetch(`${baseUrl}/task?page=${currentPage}`, {
                     headers: {
                         'Accept': 'application/json'
                     }
