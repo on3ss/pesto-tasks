@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -11,7 +13,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::with('status')->latest()->paginate(10);
+        return TaskResource::collection($tasks);
     }
 
     /**
@@ -33,9 +36,9 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-        //
+        return new TaskResource($task);
     }
 
     /**
