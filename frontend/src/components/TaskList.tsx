@@ -30,7 +30,7 @@ interface ApiResponse {
     };
 }
 
-const TaskList: React.FC = () => {
+const TaskList = ({ search }: { search: string }) => {
     const [data, setData] = useState<Task[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -48,7 +48,7 @@ const TaskList: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://10.179.36.75:8000/api/task?page=${currentPage}`, {
+                const response = await fetch(`http://10.179.36.75:8000/api/task?page=${currentPage}&filter[name]=${search}`, {
                     headers: {
                         'Accept': 'application/json'
                     }
@@ -74,7 +74,7 @@ const TaskList: React.FC = () => {
         };
 
         fetchData();
-    }, [currentPage]);
+    }, [currentPage, search]);
 
     if (loading) {
         return <LoadingListItem />;
