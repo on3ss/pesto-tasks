@@ -1,34 +1,29 @@
-import { useMemo } from "react"
+import { useCallback, useMemo } from "react"
 import Navbar from "../components/Navbar"
 import TaskFormModal from "../components/TaskFormModal"
 import TaskListItem from "../components/TaskListItem"
 import TaskFilterModal from "../components/TaskFilterModal"
 import TaskSortModal from "../components/TaskSortModal"
 
+function useModal(id: string) {
+    return useMemo(() => id, [id]);
+}
+
+function showModal(modalID: string) {
+    const modal = document.getElementById(modalID) as HTMLDialogElement;
+    if (modal) {
+        modal.showModal();
+    }
+}
+
 function Home() {
-    const taskFormModalID = useMemo(() => 'task-form-modal', [])
-    const showTaskFormModal = () => {
-        const modal = document.getElementById(taskFormModalID) as HTMLDialogElement
-        if (modal) {
-            modal.showModal()
-        }
-    }
+    const taskFormModalID = useModal('task-form-modal');
+    const taskFilterModalID = useModal('task-filter-modal');
+    const taskSortModalID = useModal('task-sort-modal');
 
-    const taskFilterModalID = useMemo(() => 'task-filter-modal', [])
-    const showTaskFilterModal = () => {
-        const modal = document.getElementById(taskFilterModalID) as HTMLDialogElement
-        if (modal) {
-            modal.showModal()
-        }
-    }
-
-    const taskSortModalID = useMemo(() => 'task-sort-modal', [])
-    const showTaskSortModal = () => {
-        const modal = document.getElementById(taskSortModalID) as HTMLDialogElement
-        if (modal) {
-            modal.showModal()
-        }
-    }
+    const showTaskFormModal = useCallback(() => showModal(taskFormModalID), [taskFormModalID]);
+    const showTaskFilterModal = useCallback(() => showModal(taskFilterModalID), [taskFilterModalID]);
+    const showTaskSortModal = useCallback(() => showModal(taskSortModalID), [taskSortModalID]);
 
     return (
         <>
