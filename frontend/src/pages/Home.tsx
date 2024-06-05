@@ -48,7 +48,7 @@ function Home() {
                     </div>
                 </div>
 
-                <section className="mx-2 mb-4 rounded bg-primary-content">
+                <section className="pb-4 mx-2 mb-4 rounded bg-primary-content">
                     <div className="flex justify-center">
                         <button className="btn btn-link focus:outline-none" onClick={showTaskFormModal}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
