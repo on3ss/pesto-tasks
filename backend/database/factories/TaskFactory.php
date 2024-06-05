@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,8 @@ class TaskFactory extends Factory
     {
         return [
             'name' => $this->faker->words($this->faker->numberBetween(1, 5), true),
-            'description' => $this->faker->sentences(1, true)
+            'description' => $this->faker->sentences(1, true),
+            'status_id' => $this->faker->numberBetween(1, Status::count())
         ];
     }
 }
