@@ -1,9 +1,10 @@
-import { useCallback, useMemo } from "react"
+import { useCallback, useMemo, useState } from "react"
 import Navbar from "../components/Navbar"
 import TaskFormModal from "../components/TaskFormModal"
 import TaskFilterModal from "../components/TaskFilterModal"
 import TaskSortModal from "../components/TaskSortModal"
 import TaskList from "../components/TaskList"
+import { useDebounce } from "@uidotdev/usehooks"
 
 function useModal(id: string) {
     return useMemo(() => id, [id]);
@@ -25,13 +26,19 @@ function Home() {
     const showTaskFilterModal = useCallback(() => showModal(taskFilterModalID), [taskFilterModalID]);
     const showTaskSortModal = useCallback(() => showModal(taskSortModalID), [taskSortModalID]);
 
+    const [search, setSearch] = useState<string>("");
+    const debouncedSearch = useDebounce(search, 300)
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+    };
+
     return (
         <>
             <Navbar />
             <main className="relative mt-24">
                 <div className="flex items-center justify-between gap-2 mx-2 mb-4">
                     <label className="flex items-center w-full gap-2 input input-bordered">
-                        <input type="text" className="grow" placeholder="Search" />
+                        <input type="text" className="grow" placeholder="Search" value={search} onChange={handleSearchChange} />
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-6 h-6 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
                     </label>
                     <div className="join">
@@ -57,7 +64,7 @@ function Home() {
                             <span>Add New Task</span>
                         </button>
                     </div>
-                    <TaskList />
+                    <TaskList search={debouncedSearch} />
                 </section>
             </main>
             <TaskFormModal taskFormModalID={taskFormModalID} />

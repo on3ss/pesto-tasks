@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\TaskRequest;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
@@ -17,7 +18,12 @@ class TaskController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $tasks = Task::with('status')->latest()->paginate(10);
+        $tasks = QueryBuilder::for(Task::class)
+            ->with('status')
+            ->allowedFilters(['name', 'status_id'])
+            ->allowedSorts(['name'])
+            ->latest()
+            ->paginate();
         return TaskResource::collection($tasks);
     }
 

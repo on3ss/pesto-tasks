@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import TaskListItem from './TaskListItem';
 
 export type Task = {
@@ -30,7 +30,7 @@ interface ApiResponse {
     };
 }
 
-const TaskList: React.FC = () => {
+const TaskList = ({ search }: { search: string }) => {
     const [data, setData] = useState<Task[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -49,7 +49,7 @@ const TaskList: React.FC = () => {
         const fetchData = async () => {
             const baseUrl = import.meta.env.VITE_API_URL
             try {
-                const response = await fetch(`${baseUrl}/task?page=${currentPage}`, {
+                const response = await fetch(`${baseUrl}/task?page=${currentPage}&filter[name]=${search}`, {
                     headers: {
                         'Accept': 'application/json'
                     }
@@ -75,7 +75,7 @@ const TaskList: React.FC = () => {
         };
 
         fetchData();
-    }, [currentPage]);
+    }, [currentPage, search]);
 
     if (loading) {
         return <LoadingListItem />;
