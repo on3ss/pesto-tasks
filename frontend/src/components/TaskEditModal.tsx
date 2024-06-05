@@ -1,16 +1,16 @@
-import { yupResolver } from "@hookform/resolvers/yup"
 import { SubmitHandler, useForm } from "react-hook-form"
-import * as yup from "yup"
 import Modal from "./Modal"
-import FormFields from "./FormFields"
 import { TaskFormValues } from "../types"
+import { yupResolver } from "@hookform/resolvers/yup"
+import FormFields from "./FormFields"
+import * as yup from "yup"
 
 const schema = yup.object({
     name: yup.string().required().min(4).max(30),
     description: yup.string().required().min(4).max(255)
 }).required()
 
-function TaskFormModal({ taskFormModalID }: { taskFormModalID: string }) {
+function TaskEditModal({ taskFormModalID }: { taskFormModalID: string }) {
     const {
         register,
         handleSubmit,
@@ -35,4 +35,4 @@ function TaskFormModal({ taskFormModalID }: { taskFormModalID: string }) {
     )
 }
 
-export default TaskFormModal
+export default TaskEditModal
