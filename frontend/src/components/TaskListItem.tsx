@@ -1,11 +1,13 @@
-function TaskListItem() {
+import { Task } from "./TaskList"
+
+function TaskListItem({ task }: { task: Task }) {
     return (
         <li className="card-body border-t-[1px] border-base-100">
-            <div className="flex items-center justify-start gap-2">
-                <h2 className="card-title">Info Card Title</h2>
-                <span className="text-xs badge badge-info badge-outline">Pending</span>
+            <div className="flex items-start justify-start gap-2">
+                <h2 className="card-title">{task.name}</h2>
+                <span className={`text-xs badge badge-${task.status.theme_color ?? 'info'} badge-outline text-nowrap`}>{task.status.name}</span>
             </div>
-            <p>This is a description of the info card. It contains relevant information that you want to display.</p>
+            <p>{task.description ?? 'No Description'}</p>
             <div className="justify-start card-actions">
                 <button className="btn btn-sm btn-success">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">

@@ -1,9 +1,10 @@
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import Navbar from "../components/Navbar"
 import TaskFormModal from "../components/TaskFormModal"
 import TaskListItem from "../components/TaskListItem"
 import TaskFilterModal from "../components/TaskFilterModal"
 import TaskSortModal from "../components/TaskSortModal"
+import TaskList from "../components/TaskList"
 
 function useModal(id: string) {
     return useMemo(() => id, [id]);
@@ -64,22 +65,6 @@ function Home() {
             <TaskFilterModal taskFilterModalID={taskFilterModalID} />
             <TaskSortModal taskSortModalID={taskSortModalID} />
         </>
-    )
-}
-
-
-
-function TaskList() {
-    return (
-        <ul>
-            <TaskListItem />
-            <TaskListItem />
-            <TaskListItem />
-            <TaskListItem />
-            <TaskListItem />
-            <TaskListItem />
-            <TaskListItem />
-        </ul>
     )
 }
 

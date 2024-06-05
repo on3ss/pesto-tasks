@@ -3,34 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\TaskRequest;
 use App\Http\Resources\TaskResource;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return JsonResponse
+     * @return AnonymousResourceCollection
      */
-    public function index(): JsonResponse
+    public function index(): AnonymousResourceCollection
     {
         $tasks = Task::with('status')->latest()->paginate(10);
-        return response()->json(TaskResource::collection($tasks));
+        return TaskResource::collection($tasks);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param TaskRequest $request
-     * @return JsonResponse
+     * @return TaskResource
      */
-    public function store(TaskRequest $request): JsonResponse
+    public function store(TaskRequest $request): TaskResource
     {
         try {
             $task = Task::create($request->validated());
-            return response()->json(new TaskResource($task->load('status')), 201);
+            return new TaskResource($task->load('status'));
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => 'Something went wrong! Could not add task'], 500);
@@ -41,11 +42,11 @@ class TaskController extends Controller
      * Display the specified resource.
      *
      * @param Task $task
-     * @return JsonResponse
+     * @return TaskResource
      */
-    public function show(Task $task): JsonResponse
+    public function show(Task $task): TaskResource
     {
-        return response()->json(new TaskResource($task));
+        return new TaskResource($task);
     }
 
     /**
@@ -53,13 +54,13 @@ class TaskController extends Controller
      *
      * @param TaskRequest $request
      * @param Task $task
-     * @return JsonResponse
+     * @return TaskResource
      */
-    public function update(TaskRequest $request, Task $task): JsonResponse
+    public function update(TaskRequest $request, Task $task): TaskResource
     {
         try {
             $task->update($request->validated());
-            return response()->json(new TaskResource($task->load('status')));
+            return new TaskResource($task->load('status'));
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => 'Something went wrong! Could not update task'], 500);
