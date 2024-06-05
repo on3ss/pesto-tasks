@@ -28,7 +28,7 @@ function Home() {
 
     const [search, setSearch] = useState<string>("");
     const debouncedSearch = useDebounce(search, 300)
-    const handleSearchChange = (e) => {
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
     };
 
