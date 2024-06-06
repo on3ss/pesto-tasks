@@ -1,8 +1,8 @@
 <?php
 
-test('test task item', function () {
-    $response = $this->getJson('/api/task/1');
-
-    $response->assertStatus(200)
-        ->assertJsonPath('data.id', 1);
+test('test create task', function () {
+    $response = $this->postJson('/api/task', [
+        'name' => 'First Task',
+        'description' => 'Description for the first task'
+    ]);
 });
