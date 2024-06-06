@@ -45,7 +45,7 @@ function HomeBody() {
 
     return (
         <>
-            <main className="relative mt-24">
+            <main className="container relative mx-auto mt-24">
                 <div className="flex items-center justify-between gap-2 mx-2">
                     <Search />
                     <div className="join">
