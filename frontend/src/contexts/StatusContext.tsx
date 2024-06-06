@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
 // Define types for the data
-interface Task {
+export interface Task {
     id: number;
     name: string;
     theme_color: 'warning' | 'info' | 'success';
@@ -12,7 +12,7 @@ interface ApiResponse {
 }
 
 // Creating a context
-interface StatusContextType {
+export interface StatusContextType {
     statuses: Task[] | null;
     statusesLoading: boolean;
 }

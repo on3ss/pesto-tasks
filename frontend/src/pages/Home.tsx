@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import Navbar from "../components/Navbar"
 import TaskFormModal from "../components/TaskFormModal"
 import TaskFilterModal from "../components/TaskFilterModal"
@@ -15,6 +15,13 @@ function showModal(modalID: string) {
     const modal = document.getElementById(modalID) as HTMLDialogElement;
     if (modal) {
         modal.showModal();
+    }
+}
+
+export function closeModal(modalID: string) {
+    const modal = document.getElementById(modalID) as HTMLDialogElement;
+    if (modal) {
+        modal.close();
     }
 }
 
@@ -87,7 +94,7 @@ function HomeBody() {
                     <TaskList search={debouncedSearch} />
                 </section>
             </main>
-            <TaskFormModal taskFormModalID={taskFormModalID} />
+            <TaskFormModal taskFormModalID={taskFormModalID} statuses={statuses} />
             <TaskFilterModal taskFilterModalID={taskFilterModalID} />
             <TaskSortModal taskSortModalID={taskSortModalID} />
         </>
