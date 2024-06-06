@@ -3,6 +3,7 @@ import { useState } from "react";
 
 function Search() {
     const [search, setSearch] = useState<string>("");
+    // TODO: use debounced search to update query params in context and invalidate task query
     const debouncedSearch = useDebounce(search, 300)
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
