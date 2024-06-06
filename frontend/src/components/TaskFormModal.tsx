@@ -5,9 +5,9 @@ import { useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import apiUtil from '../utils/apiUtil';
 import Modal from './Modal';
-import { closeModal } from '../pages/Home';
 import { FormValues } from '../types';
 import { useStatus } from '../contexts/StatusContext';
+import { closeModal } from '../utils/modalUtil';
 
 const schema = yup.object({
     name: yup.string().required().min(4).max(255),

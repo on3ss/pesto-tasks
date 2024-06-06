@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useStatus } from "../contexts/StatusContext"
 import { useTask } from "../contexts/TaskContext"
 import Modal from "./Modal"
-import { closeModal } from "../pages/Home"
+import { closeModal } from "../utils/modalUtil"
 
 function TaskFilterModal({ taskFilterModalID }: { taskFilterModalID: string }) {
     const { statuses } = useStatus()

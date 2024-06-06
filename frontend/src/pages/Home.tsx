@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react"
+import { useCallback } from "react"
 import Navbar from "../components/Navbar"
 import TaskFormModal from "../components/TaskFormModal"
 import TaskFilterModal from "../components/TaskFilterModal"
@@ -7,24 +7,7 @@ import TaskList from "../components/TaskList"
 import StatusProvider, { useStatus } from "../contexts/StatusContext"
 import Search from "../components/Search"
 import TaskProvider from "../contexts/TaskContext"
-
-function useModal(id: string) {
-    return useMemo(() => id, [id]);
-}
-
-function showModal(modalID: string) {
-    const modal = document.getElementById(modalID) as HTMLDialogElement;
-    if (modal) {
-        modal.showModal();
-    }
-}
-
-export function closeModal(modalID: string) {
-    const modal = document.getElementById(modalID) as HTMLDialogElement;
-    if (modal) {
-        modal.close();
-    }
-}
+import { showModal, useModal } from "../utils/modalUtil"
 
 function Home() {
     return (
