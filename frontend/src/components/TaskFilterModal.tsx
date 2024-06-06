@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { useStatus } from "../contexts/StatusContext"
 import { useTask } from "../contexts/TaskContext"
 import Modal from "./Modal"
@@ -6,18 +6,9 @@ import { closeModal } from "../utils/modalUtil"
 
 function TaskFilterModal({ taskFilterModalID }: { taskFilterModalID: string }) {
     const { statuses } = useStatus()
-    const [status, setStatus] = useState<number>()
     const [selectedStatus, setSelectedStatus] = useState<number | undefined>()
     const { updateQueryParams } = useTask()
     const closeTaskFormModal = useCallback(() => closeModal(taskFilterModalID), [taskFilterModalID]);
-
-    useEffect(() => {
-        if (status !== undefined) {
-            updateQueryParams({
-                'filter[status_id]': status
-            })
-        }
-    }, [status])
 
     const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedStatus(parseInt(e.target.value))
@@ -26,9 +17,11 @@ function TaskFilterModal({ taskFilterModalID }: { taskFilterModalID: string }) {
     const handleApply = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (selectedStatus !== undefined) {
-            setStatus(selectedStatus)
+            updateQueryParams({
+                'filter[status_id]': selectedStatus
+            })
+            closeTaskFormModal()
         }
-        closeTaskFormModal()
     }
 
     return (
