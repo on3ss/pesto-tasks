@@ -18,6 +18,9 @@ const TaskList = () => {
         return <EmptyListMessage />;
     }
 
+    // Render pagination buttons only if there is more than one page
+    const showPagination = endPage !== startPage;
+
     return (
         <>
             <ul>
@@ -25,23 +28,26 @@ const TaskList = () => {
                     <TaskListItem key={task.id} task={task} />
                 ))}
             </ul>
-            <div className="flex justify-center join">
-                {[...Array(endPage - startPage + 1)].map((_, index) => {
-                    const page = startPage + index;
-                    return (
-                        <button
-                            key={page}
-                            className={`join-item btn ${page === currentPage ? 'btn-primary' : ''}`}
-                            onClick={() => goToPage(page)}
-                        >
-                            {page}
-                        </button>
-                    );
-                })}
-            </div>
+            {showPagination && (
+                <div className="flex justify-center join">
+                    {[...Array(endPage - startPage + 1)].map((_, index) => {
+                        const page = startPage + index;
+                        return (
+                            <button
+                                key={page}
+                                className={`join-item btn ${page === currentPage ? 'btn-primary' : ''}`}
+                                onClick={() => goToPage(page)}
+                            >
+                                {page}
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
         </>
     );
 };
+
 
 function ErrorListItem({ error }: { error: string | null }) {
     return (
