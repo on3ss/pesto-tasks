@@ -55,7 +55,6 @@ const TaskList = ({ search }: { search: string }) => {
     const tasks = data?.data ?? [];
     const lastPage = data?.meta?.last_page ?? 1;
 
-    // Calculate the range of page numbers to display
     const startPage = Math.max(1, currentPage - 3);
     const endPage = Math.min(lastPage, startPage + 6);
 

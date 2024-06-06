@@ -1,42 +1,28 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
-import { Status, StatusApiResponse, StatusContextType } from '../types';
-
-
+import { ReactNode, createContext, useContext } from 'react';
+import { useQuery } from 'react-query';
+import { StatusApiResponse, StatusContextType } from '../types';
+import apiUtil from '../utils/apiUtil';
 
 const DataContext = createContext<StatusContextType>({
     statuses: null,
     statusesLoading: true,
 });
 
-// Custom hook to consume the context
 export const useStatus = () => useContext(DataContext);
 
-// Data provider component
 function StatusProvider({ children }: { children: ReactNode }) {
-    const [data, setData] = useState<Status[] | null>(null);
-    const [loading, setLoading] = useState(true);
+    const { data, isLoading } = useQuery<StatusApiResponse, Error>('statuses', async () => {
+        const response = await apiUtil.get('/status');
+        return response.data;
+    });
 
-    useEffect(() => {
-        const baseUrl = import.meta.env.VITE_API_URL
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${baseUrl}/status`);
-                const result: StatusApiResponse = await response.json();
-                setData(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, []);
+    const statuses = data?.data ?? null;
 
     return (
-        <DataContext.Provider value={{ statuses: data, statusesLoading: loading }}>
+        <DataContext.Provider value={{ statuses, statusesLoading: isLoading }}>
             {children}
         </DataContext.Provider>
     );
-};
+}
 
-export default StatusProvider
+export default StatusProvider;
