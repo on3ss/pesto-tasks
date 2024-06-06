@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import { useQuery } from 'react-query';
-import { TaskListApiResponse, TaskContextType } from '../types';
+import { TaskListApiResponse, TaskContextType, QueryParams } from '../types';
 import apiUtil from '../utils/apiUtil';
 
 const TaskContext = createContext<TaskContextType>({
@@ -44,9 +44,11 @@ function TaskProvider({ children }: { children: React.ReactNode }) {
     const startPage = Math.max(1, currentPage - 3);
     const endPage = Math.min(lastPage, startPage + 6);
 
-    // Function to update query parameters in context
-    const updateQueryParams = (newQueryParams: any) => {
-        setQueryParams(newQueryParams);
+    const updateQueryParams = (newQueryParams: QueryParams) => {
+        setQueryParams(prevQueryParams => ({
+            ...prevQueryParams,
+            ...newQueryParams
+        }));
     };
 
     return (

@@ -1,13 +1,22 @@
 import { useDebounce } from "@uidotdev/usehooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useTask } from "../contexts/TaskContext";
 
 function Search() {
     const [search, setSearch] = useState<string>("");
-    // TODO: use debounced search to update query params in context and invalidate task query
     const debouncedSearch = useDebounce(search, 300)
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
     };
+
+    const { updateQueryParams } = useTask()
+
+    useEffect(() => {
+        updateQueryParams({
+            'filter[name]': debouncedSearch
+        })
+    }, [debouncedSearch])
+
     return (
         <label className="flex items-center w-full gap-2 input input-bordered">
             <input type="text" className="grow" placeholder="Search" value={search} onChange={handleSearchChange} />
