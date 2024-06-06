@@ -1,16 +1,10 @@
 import Modal from './Modal';
-import { Task } from '../contexts/StatusContext';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useCallback } from 'react';
 import { closeModal } from '../pages/Home';
-
-type FormValues = {
-    name: string;
-    description?: string | null | undefined;
-    status_id: number;
-};
+import { FormValues, Status } from '../types';
 
 const schema = yup.object({
     name: yup.string().required().min(4).max(255),
@@ -18,7 +12,7 @@ const schema = yup.object({
     status_id: yup.number().required(),
 }).required();
 
-function TaskFormModal({ taskFormModalID, statuses }: { taskFormModalID: string; statuses: Task[] | null }) {
+function TaskFormModal({ taskFormModalID, statuses }: { taskFormModalID: string; statuses: Status[] | null }) {
     const {
         register,
         handleSubmit,

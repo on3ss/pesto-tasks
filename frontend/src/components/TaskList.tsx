@@ -1,34 +1,6 @@
 import { useState, useEffect } from 'react';
 import TaskListItem from './TaskListItem';
-
-export type Task = {
-    id: number;
-    name: string;
-    description: string | null;
-    status: {
-        id: number;
-        name: string;
-        theme_color: string;
-    };
-}
-
-interface ApiResponse {
-    data: Task[];
-    meta: {
-        current_page: number;
-        from: number;
-        last_page: number;
-        links: {
-            url: string | null;
-            label: string;
-            active: boolean;
-        }[];
-        path: string;
-        per_page: number;
-        to: number;
-        total: number;
-    };
-}
+import { TaskListApiResponse, Task } from '../types';
 
 const TaskList = ({ search }: { search: string }) => {
     const [data, setData] = useState<Task[]>([]);
@@ -59,7 +31,7 @@ const TaskList = ({ search }: { search: string }) => {
                     throw new Error('Something went wrong! Could not fetch task');
                 }
 
-                const jsonData: ApiResponse = await response.json();
+                const jsonData: TaskListApiResponse = await response.json();
                 const tasks = jsonData.data;
 
                 if (tasks.length > 0) {

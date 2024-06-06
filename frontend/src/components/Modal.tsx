@@ -1,6 +1,4 @@
-import React from "react"
-
-type ModalProps = { modalId: string, children: React.ReactNode }
+import { ModalProps } from "../types"
 
 function Modal({ children, modalId }: ModalProps) {
     return (
