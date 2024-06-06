@@ -31,9 +31,13 @@ function TaskProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     const { data, isLoading, isError } = useQuery<TaskListApiResponse, Error>(
-        ['tasks', queryParams],
+        ['tasks', currentPage, queryParams],
         async () => {
-            const response = await apiUtil.get('/task', { params: queryParams });
+            const mergedParams = {
+                ...queryParams,
+                'page': currentPage
+            }
+            const response = await apiUtil.get('/task', { params: mergedParams });
             return response.data;
         }
     );
