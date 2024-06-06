@@ -13,8 +13,10 @@ function Navbar() {
                                     <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
                                 </div>
                             </div>
-                            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-300 rounded-box w-52 text-base-content space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-8 xl:space-x-10">
-                                <li><a>Profile</a></li>
+                            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-300 rounded-box w-52 text-base-content">
+                                <li>
+                                    <a>Profile</a>
+                                </li>
                                 <li><a>Logout</a></li>
                             </ul>
                         </div>
