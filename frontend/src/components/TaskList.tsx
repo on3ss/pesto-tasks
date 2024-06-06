@@ -29,7 +29,7 @@ const TaskList = () => {
                 ))}
             </ul>
             {showPagination && (
-                <div className="flex justify-center join">
+                <div className="flex justify-center my-4 join">
                     {[...Array(endPage - startPage + 1)].map((_, index) => {
                         const page = startPage + index;
                         return (

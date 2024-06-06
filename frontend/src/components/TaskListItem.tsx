@@ -2,7 +2,7 @@ import { Task } from "../types"
 
 function TaskListItem({ task }: { task: Task }) {
     return (
-        <li className="card-body border-t-[1px] border-base-100">
+        <li className="card-body border-t-[1px] last:border-b-[1px] border-base-100">
             <div className="flex items-start justify-between gap-2">
                 <h2 className="card-title">{task.name}</h2>
                 <span className={`text-xs badge badge-${task.status.theme_color ?? 'info'} badge-outline text-nowrap`}>{task.status.name}</span>
