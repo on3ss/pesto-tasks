@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useContext, useMemo, useState } from "react"
 import Navbar from "../components/Navbar"
 import TaskFormModal from "../components/TaskFormModal"
 import TaskFilterModal from "../components/TaskFilterModal"
 import TaskSortModal from "../components/TaskSortModal"
 import TaskList from "../components/TaskList"
 import { useDebounce } from "@uidotdev/usehooks"
+import StatusProvider, { useStatus } from "../contexts/StatusContext"
 
 function useModal(id: string) {
     return useMemo(() => id, [id]);
@@ -18,6 +19,18 @@ function showModal(modalID: string) {
 }
 
 function Home() {
+    return (
+        <>
+            <Navbar />
+            <StatusProvider>
+                <HomeBody />
+            </StatusProvider>
+        </>
+    )
+}
+
+function HomeBody() {
+    const { statuses, statusesLoading } = useStatus()
     const taskFormModalID = useModal('task-form-modal');
     const taskFilterModalID = useModal('task-filter-modal');
     const taskSortModalID = useModal('task-sort-modal');
@@ -32,9 +45,16 @@ function Home() {
         setSearch(e.target.value);
     };
 
+    if (statusesLoading) {
+        return (
+            <div className="flex items-center justify-center w-full min-h-screen">
+                <span className="loading loading-dots loading-lg"></span>
+            </div>
+        )
+    }
+
     return (
         <>
-            <Navbar />
             <main className="relative mt-24">
                 <div className="flex items-center justify-between gap-2 mx-2 mb-4">
                     <label className="flex items-center w-full gap-2 input input-bordered">
