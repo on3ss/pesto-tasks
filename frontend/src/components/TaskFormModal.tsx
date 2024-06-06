@@ -6,7 +6,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import apiUtil from '../utils/apiUtil';
 import Modal from './Modal';
 import { closeModal } from '../pages/Home';
-import { FormValues, Status } from '../types';
+import { FormValues } from '../types';
+import { useStatus } from '../contexts/StatusContext';
 
 const schema = yup.object({
     name: yup.string().required().min(4).max(255),
@@ -14,7 +15,7 @@ const schema = yup.object({
     status_id: yup.number().required(),
 }).required();
 
-function TaskFormModal({ taskFormModalID, statuses }: { taskFormModalID: string; statuses: Status[] | null }) {
+function TaskFormModal({ taskFormModalID }: { taskFormModalID: string }) {
     const {
         register,
         handleSubmit,
@@ -47,6 +48,8 @@ function TaskFormModal({ taskFormModalID, statuses }: { taskFormModalID: string;
             },
         }
     );
+
+    const { statuses } = useStatus()
 
     const closeTaskFormModal = useCallback(() => closeModal(taskFormModalID), [taskFormModalID]);
 

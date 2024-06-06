@@ -40,7 +40,7 @@ function Home() {
 }
 
 function HomeBody() {
-    const { statuses, statusesLoading } = useStatus()
+    const { statusesLoading } = useStatus()
     const taskFormModalID = useModal('task-form-modal');
     const taskFilterModalID = useModal('task-filter-modal');
     const taskSortModalID = useModal('task-sort-modal');
@@ -90,7 +90,7 @@ function HomeBody() {
                     <TaskList />
                 </section>
             </main>
-            <TaskFormModal taskFormModalID={taskFormModalID} statuses={statuses} />
+            <TaskFormModal taskFormModalID={taskFormModalID} />
             <TaskFilterModal taskFilterModalID={taskFilterModalID} />
             <TaskSortModal taskSortModalID={taskSortModalID} />
         </>
