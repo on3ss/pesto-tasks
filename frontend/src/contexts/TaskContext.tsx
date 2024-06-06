@@ -49,6 +49,7 @@ function TaskProvider({ children }: { children: React.ReactNode }) {
     const endPage = Math.min(lastPage, startPage + 6);
 
     const updateQueryParams = (newQueryParams: QueryParams) => {
+        setCurrentPage(1);
         setQueryParams(prevQueryParams => ({
             ...prevQueryParams,
             ...newQueryParams
