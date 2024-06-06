@@ -52,7 +52,7 @@ class TaskController extends Controller
      */
     public function show(Task $task): TaskResource
     {
-        return new TaskResource($task);
+        return new TaskResource($task->load('status'));
     }
 
     /**
