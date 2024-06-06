@@ -1,61 +1,59 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 import TaskListItem from './TaskListItem';
 import { TaskListApiResponse, Task } from '../types';
+import apiUtil from '../utils/apiUtil';
+
+const fetchTasks = async (page: number, search: string) => {
+    const baseUrl = import.meta.env.VITE_API_URL;
+    const response = await apiUtil.get(`${baseUrl}/task`, {
+        params: {
+            page,
+            'filter[name]': search,
+        },
+        headers: {
+            'Accept': 'application/json',
+        },
+    });
+
+    if (response.status !== 200) {
+        throw new Error('Something went wrong! Could not fetch tasks');
+    }
+
+    return response.data;
+};
 
 const TaskList = ({ search }: { search: string }) => {
-    const [data, setData] = useState<Task[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [lastPage, setLastPage] = useState<number>(1);
+
+    const {
+        data,
+        error,
+        isLoading,
+        isError,
+    } = useQuery<TaskListApiResponse, Error>(
+        ['tasks', currentPage, search],
+        () => fetchTasks(currentPage, search)
+    );
 
     const goToPage = (page: number) => {
         setCurrentPage(page);
         window.scrollTo({
             top: 0,
-            behavior: 'smooth'
+            behavior: 'smooth',
         });
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const baseUrl = import.meta.env.VITE_API_URL
-            try {
-                const response = await fetch(`${baseUrl}/task?page=${currentPage}&filter[name]=${search}`, {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Something went wrong! Could not fetch task');
-                }
-
-                const jsonData: TaskListApiResponse = await response.json();
-                const tasks = jsonData.data;
-
-                if (tasks.length > 0) {
-                    setData(tasks);
-                }
-
-                setLastPage(jsonData.meta.last_page);
-            } catch (error: any) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [currentPage, search]);
-
-    if (loading) {
+    if (isLoading) {
         return <LoadingListItem />;
     }
 
-    if (error) {
-        return <ErrorListItem error={error} />;
+    if (isError) {
+        return <ErrorListItem error={error.message} />;
     }
+
+    const tasks = data?.data ?? [];
+    const lastPage = data?.meta?.last_page ?? 1;
 
     // Calculate the range of page numbers to display
     const startPage = Math.max(1, currentPage - 3);
@@ -64,7 +62,7 @@ const TaskList = ({ search }: { search: string }) => {
     return (
         <>
             <ul>
-                {data.map((task) => (
+                {tasks.map((task: Task) => (
                     <TaskListItem key={task.id} task={task} />
                 ))}
             </ul>

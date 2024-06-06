@@ -1,8 +1,10 @@
-import Modal from './Modal';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useCallback } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import apiUtil from '../utils/apiUtil';
+import Modal from './Modal';
 import { closeModal } from '../pages/Home';
 import { FormValues, Status } from '../types';
 
@@ -20,37 +22,36 @@ function TaskFormModal({ taskFormModalID, statuses }: { taskFormModalID: string;
         setError,
     } = useForm<FormValues>({ resolver: yupResolver(schema) });
 
-    const closeTaskFormModal = useCallback(() => closeModal(taskFormModalID), [taskFormModalID]);
+    const queryClient = useQueryClient();
 
-    const onSubmit: SubmitHandler<FormValues> = async (data) => {
-        try {
-            const baseUrl = import.meta.env.VITE_API_URL
-            const response = await fetch(`${baseUrl}/task`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-            if (response.ok) {
-                closeTaskFormModal()
+    const mutation = useMutation(
+        (newTask: FormValues) => apiUtil.post('/task', newTask),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['tasks']);
+                closeTaskFormModal();
                 alert('Task added successfully.');
-            } else {
-                const errorData = await response.json();
-                if (errorData.errors) {
-                    Object.keys(errorData.errors).forEach((key) => {
+            },
+            onError: (error: any) => {
+                if (error.response?.data?.errors) {
+                    const errorData = error.response.data.errors;
+                    Object.keys(errorData).forEach((key) => {
                         setError(key as keyof FormValues, {
                             type: 'server',
-                            message: errorData.errors[key][0], // Assuming the server sends the first error message only
+                            message: errorData[key][0], // Assuming the server sends the first error message only
                         });
                     });
                 } else {
                     alert('Failed to add task.');
                 }
-            }
-        } catch (error) {
-            alert('Something went wrong! Could not add task');
+            },
         }
+    );
+
+    const closeTaskFormModal = useCallback(() => closeModal(taskFormModalID), [taskFormModalID]);
+
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
+        mutation.mutate(data);
     };
 
     return (
@@ -61,7 +62,7 @@ function TaskFormModal({ taskFormModalID, statuses }: { taskFormModalID: string;
                     <div className="label">
                         <span className="label-text">Name</span>
                     </div>
-                    <input type="text" placeholder="Name" className="w-full input input-bordered" defaultValue="" {...register('name')} />
+                    <input type="text" placeholder="Name" className="w-full input input-bordered" {...register('name')} />
                     <div className="label">
                         <span className="label-text-alt text-error">{errors.name?.message}</span>
                     </div>
@@ -70,16 +71,16 @@ function TaskFormModal({ taskFormModalID, statuses }: { taskFormModalID: string;
                     <div className="label">
                         <span className="label-text">Description</span>
                     </div>
-                    <textarea className="h-24 textarea textarea-bordered" placeholder="Description" defaultValue="" {...register('description')}></textarea>
+                    <textarea className="h-24 textarea textarea-bordered" placeholder="Description" {...register('description')}></textarea>
                     <div className="label">
                         <span className="label-text-alt text-error">{errors.description?.message}</span>
                     </div>
                 </label>
-                <label className="my-4 form-control" {...register('status_id')}>
+                <label className="my-4 form-control">
                     <div className="label">
                         <span className="label-text">Status</span>
                     </div>
-                    <select className="select select-bordered">
+                    <select className="select select-bordered" {...register('status_id')}>
                         {statuses?.map((status) => (
                             <option key={status.id} value={status.id}>
                                 {status.name}
