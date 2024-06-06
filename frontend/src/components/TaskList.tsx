@@ -1,45 +1,23 @@
-import { useState } from 'react';
-import { useQuery } from 'react-query';
-import TaskListItem from './TaskListItem';
-import { TaskListApiResponse, Task } from '../types';
-import { fetchTasks } from '../api/tasks';
+import { useTask } from "../contexts/TaskContext";
+import TaskListItem from "./TaskListItem";
+import { Task } from "../types";
 
 
-const TaskList = ({ search }: { search: string }) => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
+const TaskList = () => {
+    const { tasks, tasksLoading, isError, currentPage, startPage, endPage, goToPage } = useTask();
 
-    const { data, error, isLoading, isError } = useQuery<TaskListApiResponse, Error>(
-        ['tasks', currentPage, search],
-        () => fetchTasks(currentPage, search),
-        { keepPreviousData: true }
-    );
-
-    const goToPage = (page: number) => {
-        setCurrentPage(page);
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
-    };
-
-    if (isLoading) {
+    if (tasksLoading) {
         return <LoadingListItem />;
     }
 
     if (isError) {
-        return <ErrorListItem error={error.message} />;
+        return <ErrorListItem error="Something went wrong! Could not fetch your tasks" />;
     }
-
-    const tasks = data?.data ?? [];
-    const lastPage = data?.meta?.last_page ?? 1;
-
-    const startPage = Math.max(1, currentPage - 3);
-    const endPage = Math.min(lastPage, startPage + 6);
 
     return (
         <>
             <ul>
-                {tasks.map((task: Task) => (
+                {tasks?.map((task: Task) => (
                     <TaskListItem key={task.id} task={task} />
                 ))}
             </ul>

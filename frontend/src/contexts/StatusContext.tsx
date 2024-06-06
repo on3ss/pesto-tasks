@@ -3,12 +3,12 @@ import { useQuery } from 'react-query';
 import { StatusApiResponse, StatusContextType } from '../types';
 import apiUtil from '../utils/apiUtil';
 
-const DataContext = createContext<StatusContextType>({
+const StatusContext = createContext<StatusContextType>({
     statuses: null,
     statusesLoading: true,
 });
 
-export const useStatus = () => useContext(DataContext);
+export const useStatus = () => useContext(StatusContext);
 
 function StatusProvider({ children }: { children: ReactNode }) {
     const { data, isLoading } = useQuery<StatusApiResponse, Error>('statuses', async () => {
@@ -19,9 +19,9 @@ function StatusProvider({ children }: { children: ReactNode }) {
     const statuses = data?.data ?? null;
 
     return (
-        <DataContext.Provider value={{ statuses, statusesLoading: isLoading }}>
+        <StatusContext.Provider value={{ statuses, statusesLoading: isLoading }}>
             {children}
-        </DataContext.Provider>
+        </StatusContext.Provider>
     );
 }
 

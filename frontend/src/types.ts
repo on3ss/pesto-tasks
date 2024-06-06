@@ -35,7 +35,6 @@ export type TaskListApiResponse = {
     };
 }
 
-// Define types for the data
 export type Status = {
     id: number;
     name: string;
@@ -46,8 +45,22 @@ export type StatusApiResponse = {
     data: Status[];
 }
 
-// Creating a context
 export type StatusContextType = {
     statuses: Status[] | null;
     statusesLoading: boolean;
 }
+
+export type TaskContextType = {
+    tasks: Task[] | null;
+    tasksLoading: boolean;
+    queryParams: QueryParams;
+    updateQueryParams: (newQueryParams: QueryParams) => void;
+    isError: boolean,
+    currentPage: number
+    startPage: number
+    lastPage: number
+    endPage: number,
+    goToPage: (page: number) => void
+}
+
+export type QueryParams = { [key: string]: any };
