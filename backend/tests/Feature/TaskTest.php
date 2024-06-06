@@ -266,3 +266,29 @@ it('filter status field', function () {
         ->assertStatus(200)
         ->assertJsonCount($tasksWithStatusCount, 'data');
 });
+
+it('sort by name ascending', function () {
+    Task::factory(20)->create();
+
+    $response = $this
+        ->getJson(route('task.index', ['sort' => 'name']));
+    $response->assertStatus(200);
+
+    $responseData = $response->json()['data'];
+    $sortedResponseData = collect($responseData)->sortBy('name');
+
+    $this->assertSame($responseData, $sortedResponseData->toArray());
+});
+
+it('sort by name descending', function () {
+    Task::factory(20)->create();
+
+    $response = $this
+        ->getJson(route('task.index', ['sort' => '-name']));
+    $response->assertStatus(200);
+
+    $responseData = $response->json()['data'];
+    $sortedResponseData = collect($responseData)->sortBy('name', descending: true);
+
+    $this->assertSame($responseData, $sortedResponseData->toArray());
+});
