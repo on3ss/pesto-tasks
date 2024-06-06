@@ -8,6 +8,7 @@ import StatusProvider, { useStatus } from "../contexts/StatusContext"
 import Search from "../components/Search"
 import TaskProvider from "../contexts/TaskContext"
 import { showModal, useModal } from "../utils/modalUtil"
+import ClearFilterButton from "../components/ClearFilterButton"
 
 function Home() {
     return (
@@ -45,7 +46,7 @@ function HomeBody() {
     return (
         <>
             <main className="relative mt-24">
-                <div className="flex items-center justify-between gap-2 mx-2 mb-4">
+                <div className="flex items-center justify-between gap-2 mx-2">
                     <Search />
                     <div className="join">
                         <button className="btn join-item" onClick={showTaskFilterModal}>
@@ -60,6 +61,7 @@ function HomeBody() {
                         </button>
                     </div>
                 </div>
+                <ClearFilterButton />
 
                 <section className="pb-4 mx-2 mb-4 rounded bg-primary-content">
                     <div className="flex justify-center">

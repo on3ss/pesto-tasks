@@ -55,6 +55,7 @@ export type TaskContextType = {
     tasksLoading: boolean;
     queryParams: QueryParams;
     updateQueryParams: (newQueryParams: QueryParams) => void;
+    clearQueryParams: () => void;
     isError: boolean,
     currentPage: number
     startPage: number

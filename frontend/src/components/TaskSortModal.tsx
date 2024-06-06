@@ -40,7 +40,7 @@ function TaskSortModal({ taskSortModalID }: { taskSortModalID: string }) {
                         value={field}
                         onChange={handleFieldChange}
                     >
-                        <option value="" disabled>Select field</option>
+                        <option value="created_at">Created</option>
                         <option value="name">Name</option>
                         <option value="status">Status</option>
                     </select>

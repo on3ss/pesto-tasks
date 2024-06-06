@@ -1,28 +1,37 @@
-import { useCallback, useState } from "react"
-import { useStatus } from "../contexts/StatusContext"
-import { useTask } from "../contexts/TaskContext"
-import Modal from "./Modal"
-import { closeModal } from "../utils/modalUtil"
+import { useCallback, useEffect, useState } from "react";
+import { useStatus } from "../contexts/StatusContext";
+import { useTask } from "../contexts/TaskContext";
+import Modal from "./Modal";
+import { closeModal } from "../utils/modalUtil";
 
 function TaskFilterModal({ taskFilterModalID }: { taskFilterModalID: string }) {
-    const { statuses } = useStatus()
-    const [selectedStatus, setSelectedStatus] = useState<number | undefined>()
-    const { updateQueryParams } = useTask()
-    const closeTaskFormModal = useCallback(() => closeModal(taskFilterModalID), [taskFilterModalID]);
+    const { statuses } = useStatus();
+    const { queryParams, updateQueryParams } = useTask();
+    const [selectedStatus, setSelectedStatus] = useState<number | undefined>(
+        queryParams['filter[status_id]']
+    );
+
+    const closeTaskFormModal = useCallback(() => {
+        closeModal(taskFilterModalID);
+    }, [taskFilterModalID]);
 
     const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedStatus(parseInt(e.target.value))
-    }
+        const value = e.target.value ? parseInt(e.target.value) : undefined;
+        setSelectedStatus(value);
+    };
 
     const handleApply = (e: React.SyntheticEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        if (selectedStatus !== undefined) {
-            updateQueryParams({
-                'filter[status_id]': selectedStatus
-            })
-            closeTaskFormModal()
-        }
-    }
+        e.preventDefault();
+        updateQueryParams({
+            'filter[status_id]': selectedStatus
+        });
+        closeTaskFormModal();
+    };
+
+    // Reset selectedStatus when the modal is closed or opened
+    useEffect(() => {
+        setSelectedStatus(queryParams['filter[status_id]']);
+    }, [queryParams]);
 
     return (
         <Modal modalId={taskFilterModalID}>
@@ -34,7 +43,7 @@ function TaskFilterModal({ taskFilterModalID }: { taskFilterModalID: string }) {
                     </div>
                     <select
                         className="select select-bordered"
-                        value={selectedStatus}
+                        value={selectedStatus ?? ""}
                         onChange={handleStatusChange}
                     >
                         <option value="" disabled>Select status</option>
@@ -50,7 +59,7 @@ function TaskFilterModal({ taskFilterModalID }: { taskFilterModalID: string }) {
                 </button>
             </form>
         </Modal>
-    )
+    );
 }
 
-export default TaskFilterModal
+export default TaskFilterModal;

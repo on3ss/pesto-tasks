@@ -8,6 +8,7 @@ const TaskContext = createContext<TaskContextType>({
     tasksLoading: true,
     queryParams: {},
     updateQueryParams: () => { },
+    clearQueryParams: () => { },
     isError: false,
     currentPage: 1,
     startPage: 1,
@@ -56,8 +57,25 @@ function TaskProvider({ children }: { children: React.ReactNode }) {
         }));
     };
 
+    const clearQueryParams = () => {
+        goToPage(1)
+        setQueryParams({})
+    }
+
     return (
-        <TaskContext.Provider value={{ tasks, tasksLoading: isLoading, queryParams, updateQueryParams, isError, currentPage, startPage, lastPage, endPage, goToPage }}>
+        <TaskContext.Provider value={{
+            tasks,
+            tasksLoading: isLoading,
+            queryParams,
+            updateQueryParams,
+            isError,
+            currentPage,
+            startPage,
+            lastPage,
+            endPage,
+            goToPage,
+            clearQueryParams
+        }}>
             {children}
         </TaskContext.Provider>
     );
