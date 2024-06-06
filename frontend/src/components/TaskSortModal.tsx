@@ -42,7 +42,6 @@ function TaskSortModal({ taskSortModalID }: { taskSortModalID: string }) {
                     >
                         <option value="created_at">Created</option>
                         <option value="name">Name</option>
-                        <option value="status">Status</option>
                     </select>
                 </label>
                 <label className="w-full my-4 form-control">

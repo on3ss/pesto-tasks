@@ -21,7 +21,8 @@ class TaskController extends Controller
         $tasks = QueryBuilder::for(Task::class)
             ->with('status')
             ->allowedFilters(['name', 'status_id'])
-            ->allowedSorts(['name'])
+            ->defaultSort('created_at')
+            ->allowedSorts(['name', 'created_at'])
             ->latest()
             ->paginate();
         return TaskResource::collection($tasks);
