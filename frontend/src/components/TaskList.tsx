@@ -26,14 +26,12 @@ const fetchTasks = async (page: number, search: string) => {
 const TaskList = ({ search }: { search: string }) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const {
-        data,
-        error,
-        isLoading,
-        isError,
-    } = useQuery<TaskListApiResponse, Error>(
+    const { data, error, isLoading, isError } = useQuery<TaskListApiResponse, Error>(
         ['tasks', currentPage, search],
-        () => fetchTasks(currentPage, search)
+        () => fetchTasks(currentPage, search),
+        {
+            keepPreviousData: true,
+        }
     );
 
     const goToPage = (page: number) => {
