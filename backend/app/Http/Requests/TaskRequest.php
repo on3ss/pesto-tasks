@@ -24,7 +24,7 @@ class TaskRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:4|max:255',
-            'description' => 'nullable|string|max:255',
+            'description' => 'nullable|string|min:4|max:1000',
             'status_id' => 'required|integer|exists:statuses,id'
         ];
     }
