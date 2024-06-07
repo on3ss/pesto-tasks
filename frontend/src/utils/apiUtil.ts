@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.withCredentials = true
+
 // Create an instance of Axios
 const apiUtil = axios.create({
     baseURL: import.meta.env.VITE_API_URL, // Set your base URL here
