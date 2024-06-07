@@ -13,7 +13,7 @@ function Navbar() {
     return (
         <>
             <header className="fixed inset-x-0 top-0 z-50 w-full bg-primary text-primary-content">
-                <div className="container mx-auto">
+                <div className="mx-auto md:w-2/3 xl:w-1/2">
                     <div className="navbar">
                         <div className="flex-1">
                             <a className="text-xl btn btn-ghost">taskMN</a>
