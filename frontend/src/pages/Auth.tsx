@@ -7,7 +7,7 @@ function Auth() {
 
     return (
         <div className="flex items-center justify-center min-h-screen">
-            <div role="tablist" className="container w-full mx-4 tabs tabs-boxed">
+            <div role="tablist" className="container w-full mx-4 tabs tabs-boxed sm:w-1/2 lg:w-1/3 xl:1/4">
                 <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Login" checked={tab === 1} onChange={() => setTab(1)} />
                 <div role="tabpanel" className="p-6 tab-content bg-base-100 border-base-300 rounded-box">
                     <LoginForm />
