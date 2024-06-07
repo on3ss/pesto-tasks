@@ -1,7 +1,9 @@
-import { useState } from "react"
+import { useState } from 'react';
+import { LoginForm } from '../components/LoginForm';
+import { RegistrationForm } from '../components/RegistrationForm';
 
 function Auth() {
-    const [tab, setTab] = useState<number>(1)
+    const [tab, setTab] = useState<number>(1);
 
     return (
         <div className="flex items-center justify-center min-h-screen">
@@ -17,77 +19,7 @@ function Auth() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-
-function LoginForm() {
-    return (
-        <form>
-            <label className="w-full form-control">
-                <div className="label">
-                    <span className="label-text">Email</span>
-                </div>
-                <input type="text" placeholder="Email" className="w-full input input-bordered" />
-                <div className="label">
-                    <span className="label-text-alt">Bottom Left label</span>
-                </div>
-            </label>
-            <label className="w-full form-control">
-                <div className="label">
-                    <span className="label-text">Password</span>
-                </div>
-                <input type="password" placeholder="Password" className="w-full input input-bordered" />
-                <div className="label">
-                    <span className="label-text-alt">Bottom Left label</span>
-                </div>
-            </label>
-
-            <div className="flex justify-center my-4">
-                <button className="flex-1 btn btn-primary">Login</button>
-            </div>
-        </form>
-    )
-}
-
-function RegistrationForm() {
-    return (
-        <>
-            <form>
-                <label className="w-full form-control">
-                    <div className="label">
-                        <span className="label-text">Email</span>
-                    </div>
-                    <input type="text" placeholder="Email" className="w-full input input-bordered" />
-                    <div className="label">
-                        <span className="label-text-alt">Bottom Left label</span>
-                    </div>
-                </label>
-                <label className="w-full form-control">
-                    <div className="label">
-                        <span className="label-text">Password</span>
-                    </div>
-                    <input type="password" placeholder="Password" className="w-full input input-bordered" />
-                    <div className="label">
-                        <span className="label-text-alt">Bottom Left label</span>
-                    </div>
-                </label>
-                <label className="w-full form-control">
-                    <div className="label">
-                        <span className="label-text">Confirm Password</span>
-                    </div>
-                    <input type="password" placeholder="Confirm Password" className="w-full input input-bordered" />
-                    <div className="label">
-                        <span className="label-text-alt">Bottom Left label</span>
-                    </div>
-                </label>
-
-                <div className="flex justify-center my-4">
-                    <button className="flex-1 btn btn-primary">Register</button>
-                </div>
-            </form>
-        </>
-    )
-}
-
-export default Auth
+export default Auth;

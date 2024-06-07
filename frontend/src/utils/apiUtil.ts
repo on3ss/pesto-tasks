@@ -1,20 +1,19 @@
 import axios from 'axios';
 
-axios.defaults.withCredentials = true
-
-// Create an instance of Axios
+// Create a base Axios instance
 const apiUtil = axios.create({
-    baseURL: import.meta.env.VITE_API_URL, // Set your base URL here
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true,
+    withXSRFToken: true,
     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    },
+        'Accept': 'application/json'
+    }
 });
 
-// Request interceptor
+// Add request interceptor
 apiUtil.interceptors.request.use(
     (config) => {
-        // You can add token or other custom headers here
+        // Add custom headers or tokens here if needed
         // Example: config.headers.Authorization = `Bearer ${token}`;
         return config;
     },
@@ -23,7 +22,7 @@ apiUtil.interceptors.request.use(
     }
 );
 
-// Response interceptor
+// Add response interceptor
 apiUtil.interceptors.response.use(
     (response) => {
         return response;
