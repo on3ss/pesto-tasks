@@ -9,7 +9,7 @@ function LogoutConfirmModal({ modalID }: { modalID: string }) {
 
     return (
         <Modal modalId={modalID}>
-            <h3 className="text-lg font-bold">Add Task</h3>
+            <h3 className="text-lg font-bold">Logout?</h3>
             <div className="flex justify-end gap-2">
                 <button className="btn btn-secondary" onClick={closeLogoutModal}>No</button>
                 <button className="btn btn-primary" onClick={() => logout()}>Logout</button>
