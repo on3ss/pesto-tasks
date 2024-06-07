@@ -1,10 +1,15 @@
 import { useCallback } from "react";
 import { showModal, useModal } from "../utils/modalUtil";
 import LogoutConfirmModal from "./LogoutConfirmModal";
+import ProfileModal from "./ProfileModal";
+import { useAuth } from "../contexts/AuthContext";
 
 function Navbar() {
+    const { user } = useAuth()
     const confirmLogoutModal = useModal('confirm-logout-modal');
+    const profileModal = useModal('profile-modal');
     const showConfirmLogoutModal = useCallback(() => showModal(confirmLogoutModal), [confirmLogoutModal]);
+    const showProfileModal = useCallback(() => showModal(profileModal), [profileModal]);
     return (
         <>
             <header className="fixed inset-x-0 top-0 z-50 w-full bg-primary text-primary-content">
@@ -17,12 +22,12 @@ function Navbar() {
                             <div className="dropdown dropdown-end">
                                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                     <div className="w-10 rounded-full">
-                                        <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                        <img alt="Tailwind CSS Navbar component" src={`https://ui-avatars.com/api/?name=${user?.name}`} />
                                     </div>
                                 </div>
                                 <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-300 rounded-box w-52 text-base-content">
                                     <li>
-                                        <a>Profile</a>
+                                        <a onClick={showProfileModal}>Profile</a>
                                     </li>
                                     <li><a onClick={showConfirmLogoutModal}>Logout</a></li>
                                 </ul>
@@ -32,6 +37,7 @@ function Navbar() {
                 </div>
             </header>
             <LogoutConfirmModal modalID={confirmLogoutModal} />
+            <ProfileModal modalID={profileModal} />
         </>
     )
 }
