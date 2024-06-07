@@ -258,7 +258,7 @@ it('filter name field', function () {
 });
 
 it('filter status field', function () {
-    Task::factory(20)->create();
+    Task::factory(15)->create();
     $tasksWithStatusCount = Task::where('status_id', $this->status->id)->count();
 
     $this
