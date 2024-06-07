@@ -15,11 +15,24 @@ class Task extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'status_id'];
+    protected $fillable = ['name', 'description', 'status_id', 'user_id'];
 
-    /* Get the user associated with the Task
+    /**
+     * The "booted" method of the model.
      *
-     * @return Illuminate\Database\Eloquent\Relations\HasOne
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::creating(function ($task) {
+            $task->user_id = auth()->user()->id;
+        });
+    }
+
+    /**
+     * Get the status associated with the Task.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function status(): HasOne
     {

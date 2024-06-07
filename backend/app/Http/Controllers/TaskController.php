@@ -19,9 +19,10 @@ class TaskController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $tasks = QueryBuilder::for(Task::class)
+            ->where('user_id', auth()->user()->id)
             ->with('status')
             ->allowedFilters(['name', 'status_id'])
-            ->defaultSort('created_at')
+            ->defaultSort('-created_at')
             ->allowedSorts(['name', 'created_at'])
             ->latest()
             ->paginate();
