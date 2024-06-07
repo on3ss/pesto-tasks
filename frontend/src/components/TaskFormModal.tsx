@@ -21,6 +21,7 @@ function TaskFormModal({ taskFormModalID }: { taskFormModalID: string }) {
         handleSubmit,
         formState: { errors },
         setError,
+        reset
     } = useForm<FormValues>({ resolver: yupResolver(schema) });
 
     const queryClient = useQueryClient();
@@ -32,6 +33,7 @@ function TaskFormModal({ taskFormModalID }: { taskFormModalID: string }) {
                 queryClient.invalidateQueries(['tasks']);
                 closeTaskFormModal();
                 alert('Task added successfully.');
+                reset()
             },
             onError: (error: any) => {
                 if (error.response?.data?.errors) {
