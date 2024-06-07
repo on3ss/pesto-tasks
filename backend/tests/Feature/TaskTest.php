@@ -2,6 +2,7 @@
 
 use App\Models\Task;
 use App\Models\Status;
+use App\Models\User;
 use Database\Seeders\StatusSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\{getJson, postJson, putJson, deleteJson};
@@ -11,6 +12,10 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->seed([StatusSeeder::class]);
     $this->status = Status::inRandomOrder()->first();
+    
+    // Create a user and authenticate
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user, 'sanctum');
 });
 
 it('can create a task', function () {
