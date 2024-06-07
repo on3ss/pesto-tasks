@@ -75,7 +75,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setError(null);
         try {
             await registerUser(name, email, password, confirmPassword);
-            await handleLogin(email, password);
+            await fetchUser();
         } catch (error) {
             setError('Registration failed. Please try again.');
             throw error;
