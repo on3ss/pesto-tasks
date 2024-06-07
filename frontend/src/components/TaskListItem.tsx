@@ -2,6 +2,8 @@ import { useCallback } from "react";
 import { Task } from "../types"
 import { closeModal, showModal, useModal } from "../utils/modalUtil";
 import Modal from "./Modal";
+import { useMutation, useQueryClient } from "react-query";
+import apiUtil from "../utils/apiUtil";
 
 function TaskListItem({ task }: { task: Task }) {
     const modalID = useModal('delete-confirm-modal');
@@ -29,20 +31,32 @@ function TaskListItem({ task }: { task: Task }) {
                     </button>
                 </div>
             </li>
-            <ConfirmDeleteModal modalID={modalID} />
+            <ConfirmDeleteModal modalID={modalID} taskID={task.id} />
         </>
     )
 }
 
-function ConfirmDeleteModal({ modalID }: { modalID: string }) {
-    const closeDelteModal = useCallback(() => closeModal(modalID), [modalID]);
+function ConfirmDeleteModal({ modalID, taskID }: { modalID: string, taskID: number }) {
+    const closeDeleteModal = useCallback(() => closeModal(modalID), [modalID]);
+
+    const queryClient = useQueryClient()
+    const mutation = useMutation((id: number) => apiUtil.delete(`/api/task/${id}`), {
+        onSuccess: () => {
+            closeDeleteModal()
+            queryClient.invalidateQueries(['tasks'])
+        },
+        onError: () => {
+            alert('Something went wrong! Could not delete task')
+        }
+    })
+
     return (
         <Modal modalId={modalID}>
             <h5 className="text-lg font-bold">Delete Task</h5>
             <p>Are you sure you want to delete this task?</p>
             <div className="flex justify-end gap-2 my-4">
-                <button className="btn btn-secondary" onClick={closeDelteModal}>No</button>
-                <button className="btn btn-primary">Delete</button>
+                <button className="btn btn-secondary" onClick={closeDeleteModal}>No</button>
+                <button className="btn btn-primary" onClick={() => mutation.mutate(taskID)}>Delete</button>
             </div>
         </Modal>
     )
