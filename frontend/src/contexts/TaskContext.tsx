@@ -38,7 +38,7 @@ function TaskProvider({ children }: { children: React.ReactNode }) {
                 ...queryParams,
                 'page': currentPage
             }
-            const response = await apiUtil.get('/task', { params: mergedParams });
+            const response = await apiUtil.get('/api/task', { params: mergedParams });
             return response.data;
         }
     );

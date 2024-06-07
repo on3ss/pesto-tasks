@@ -26,7 +26,7 @@ function TaskFormModal({ taskFormModalID }: { taskFormModalID: string }) {
     const queryClient = useQueryClient();
 
     const mutation = useMutation(
-        (newTask: FormValues) => apiUtil.post('/task', newTask),
+        (newTask: FormValues) => apiUtil.post('/api/task', newTask),
         {
             onSuccess: () => {
                 queryClient.invalidateQueries(['tasks']);

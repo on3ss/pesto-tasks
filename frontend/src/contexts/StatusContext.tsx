@@ -12,7 +12,7 @@ export const useStatus = () => useContext(StatusContext);
 
 function StatusProvider({ children }: { children: ReactNode }) {
     const { data, isLoading } = useQuery<StatusApiResponse, Error>('statuses', async () => {
-        const response = await apiUtil.get('/status');
+        const response = await apiUtil.get('/api/status');
         return response.data;
     });
 
