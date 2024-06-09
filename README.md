@@ -6,10 +6,12 @@
 - Composer 2 Installed
 
 ### Running backend
+- In your terminal change working directory to backend
 - `composer install` to install dependencies
-- `cp .env.example .env` to create environment file from example
+- `cp .env.example .env` to create environment file from example.
+- Define db connections in .env and define APP_URL, FRONTEND_URL, SESSION_DOMAIN and SANCTUM_STATEFUL_DOMAINS 
 - `php artisan key:generate` to generate application key
-- `php artisan db:migrate --seed` to create tables and seed initial data
+- `php artisan migrate --seed` to create tables and seed initial data
 - `php artisan serve` to serve
 
 #### Note about environment files
@@ -26,5 +28,8 @@ You can run the test using `php artisan test`. Tests are stored in backend/tests
 - bun 1.1.12
 
 ### Running fronend
+- In your terminal change working directory to fronend
 - `cp .env.example .env` to create environment file from example
 - Change .env as needed
+- `bun install` to install dependencies
+- `bun dev` to run application 
