@@ -16,6 +16,5 @@ export const logoutUser = async () => {
 
 export const getUserData = async () => {
     const response = await apiUtil.get(`/api/user`);
-    console.log(response)
     return response.data;
 };
